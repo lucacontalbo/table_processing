@@ -1,0 +1,26 @@
+Unnamed: 0,Unnamed: 1,(€/000),%,%.1,%.2,%.3,%.4,%.5,%.6,S/N,S/N.1,S/N.2,S/N.3,S/N.4,S/N.5,S/N.6,%.7,%.8,A,T
+A. ATTIVITÀ AMMISSIBILI ALLA TASSONOMIA,,,,,,,,,,,,,,,,,,,,
+A.1. Attività ecosostenibili (allineate alla Tassonomia),,,,,,,,,,,,,,,,,,,,
+Trasmissione e distribuzione di energia elettrica,4.9,3.048,"1,4%",100%,0%,n/a,n/a,n/a,n/a,,S,,S,S,S,S,"1,4%",n/a,A,
+Distribuzione del teleriscaldamento/teleraffrescamento,4.15,3.225,"1,5%",100%,0%,n/a,n/a,n/a,n/a,C,diciS,S,,S,S,S,"1,5%",n/a,,
+"Gestione di dispositivi di mobilità personale,ciclologistica",6.4,6.0,0%,100%,0%,n/a,n/a,n/a,n/a,,S,,S,,,S,0%,n/a,,
+Infrastrutture per il trasporto ferroviario,6.14,1.416,"0,7%",100%,0%,n/a,n/a,n/a,n/a,Ca,Ex     S,S,S,S,S,S,"0,7%",n/a,A,
+Infrastrutture che consentono il trasporto su strada eil trasporto pubblico a basse emissioni di carbonio,6.15,3.036,"1,4%",100%,0%,n/a,n/a,n/a,n/a,,S,S,S,S,S,S,"1,4%",n/a,A,
+Infrastrutture aeroportuali a basse emissioni dicarbonio,6.17,502.0,"0,2%",100%,0%,n/a,n/a,n/a,n/a,Q,ota diS,S,S,S,S,S,"0,2%",n/a,A,
+"Installazione, manutenzione e riparazione didispositivi per l’efficienza energetica",7.3,119.0,"0,1%",100%,0%,n/a,n/a,n/a,n/a,,S,,,S,,S,"0,1%",n/a,A,
+"Installazione, manutenzione e riparazione di stazionidi ricarica per veicoli elettrici negli edifici",7.4,67.0,0%,100%,0%,n/a,n/a,n/a,n/a,Mide,igaziSonecambia-,,,S,,S,0%,n/a,A,
+"Installazione, manutenzione e riparazione ditecnologie per le energie rinnovabili",7.6,2.084,1%,100%,0%,n/a,n/a,n/a,n/a,mti,nto clima-oS,,,S,,S,1%,n/a,A,
+Acquisto e proprietà di edifici,7.7,141.523,"66,1%",100%,0%,n/a,n/a,n/a,n/a,Aal,attamSentoambia-,,,S,,S,"66,1%",n/a,,
+CapEx delle attività economiche ecosostenibili(allineate alla Tassonomia) (A.1),,155.026,"72,4%",100%,0%,,,,,mti,nto clima-o,,,,,,"72,4%",,,
+A.2 Attività ammisibili alla Tassonomia manon ecosostenibili (attività non allineate allaTassonomia),,,,,,,,,,Ac,ua e risor-,,,,,,,,,
+"Costruzione, espansione e gestione di sistemi diraccolta e trattamento delle acque reflue",5.3,2.479,"1,2%",,,,,,,,,,,,,,,,,
+Infrastrutture aeroportuali a basse emissioni dicarbonio,6.17,61.0,0%,,,,,,,Ec,nomia,,,,,,,,,
+Ristrutturazione di edifici esistenti,7.2,402.0,"0,2%",,,,,,,ci,colare,,,,,,,,,
+Acquisto e proprietà di edifici,7.7,6.727,"3,1%",,,,,,,,,,,,,,,,,
+"Elaborazione dei dati, hosting e attività connesse",8.1,1.557,"0,7%",,,,,,,,,,,,,,,,,
+Soluzioni basate sui dati per la riduzione delleemissioni di gas serra.,8.2,64.0,0%,,,,,,,,,,,,,,,,,
+CapEx delle attività ammissibili alla Tassonomiama non ecosostenibili (attività non allineate allaTassonomia) (A.2),,11.29,"5,3%",,,,,,,ed,ecosistemi,,,,,,,,,
+CapEx totale delle attività ammissibili allaTassonomia (A.1 + A.2),,166.316,"77,7%",,,,,,,Mide,igazionecambia-,,,,,,"72,4%",,,
+B. ATTIVITÀ NON AMMISSIBILI ALLATASSONOMIA,,,,,,,,,,mti,nto clima-o,,,,,,,,,
+CapEx delle attività economiche non ammissibilialla Tassonomia,,47.861,"22,3%",,,,,,,alm,ambia-nto clima-,,,,,,,,,
+TOTALE (A + B),,214.178,100%,,,,,,,ti,o,,,,,,,,,

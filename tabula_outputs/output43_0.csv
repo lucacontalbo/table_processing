@@ -1,0 +1,32 @@
+Unnamed: 0,Immobilizzazioni immateriali,2.546.612,2.502.720,43.892
+,Immobilizzazioni materiali,52.687,50.898,1.789
+,Immobilizzazioni finanziarie,19.430,19.954,(524)
+,Attività per imposte anticipate,39.775,90.451,(50.676)
+,Altre attività non correnti,461,470,(9)
+A,CAPITALE IMMOBILIZZATO,2.658.965,2.664.493,(5.528)
+,Attività commerciali,214.068,192.202,21.866
+,Altre attività correnti,36.658,265.341,(228.683)
+,Attività per imposte correnti,23.061,73.735,(50.674)
+,Passività commerciali,(188.923),(140.513),(48.410)
+,Altre passività correnti,(186.833),(148.066),(38.767)
+,Passività per imposte correnti,(13.486),(7.521),(5.965)
+B,CAPITALE CIRCOLANTE,(115.455),235.178,(350.633)
+,Fondi per benefici per dipendenti,(1.501),(975),(526)
+,Fondo rinnovo infrastrutture aeroportuali,(76.548),(55.138),(21.410)
+,Altri fondi per rischi ed oneri,(5.998),(4.923),(1.075)
+C,QUOTA CORRENTE FONDI,(84.047),(61.036),(23.011)
+D = B + C,CAPITALE CIRCOLANTE AL NETTO DELLA QUOTA CORRENTEDEI FONDI,(199.502),174.142,(373.644)
+,Passività non correnti,(188.880),(196.618),7.738
+E,PASSIVITÀ NON CORRENTI,(188.880),(196.618),7.738
+F = A + D + E,CAPITALE INVESTITO NETTO,2.270.583,2.642.017,(371.434)
+,Patrimonio netto di pertinenza del Gruppo,1.096.177,966.971,129.206
+,Patrimonio netto di pertinenza di terzi,0,2.795,(2.795)
+G,PATRIMONIO NETTO,1.096.177,969.766,126.411
+,Passività finanziarie non correnti,1.892.036,2.261.910,(369.874)
+,Altre attività finanziarie non correnti,(17.429),(718),(16.711)
+H,INDEBITAMENTO FINANZIARIO NETTO NON CORRENTE,1.874.607,2.261.192,(386.585)
+,Passività finanziarie correnti,382.674,76.375,306.299
+,Attività finanziarie correnti,(1.082.875),(665.316),(417.559)
+I,INDEBITAMENTO FINANZIARIO NETTO CORRENTE,(700.201),(588.941),(111.260)
+L = H + I,INDEBITAMENTO FINANZIARIO NETTO,1.174.406,1.672.251,(497.845)
+G + L,COPERTURA DEL CAPITALE INVESTITO,2.270.583,2.642.017,(371.434)

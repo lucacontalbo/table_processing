@@ -1,0 +1,34 @@
+Unnamed: 0,Immobilizzazioni immateriali,corrispondente alla voce Attività immateriali dei prospetti contabiliconsolidati
+,Immobilizzazioni materiali,corrispondente alla voce Attività materiali dei prospetti contabiliconsolidati
+,Immobilizzazioni finanziarie,corrispondente alla voce Partecipazioni dei prospetti contabiliconsolidati
+,Attività per imposte anticipate,desumibile dai prospetti contabili consolidati
+,Altre attività non correnti,desumibile dai prospetti contabili consolidati
+A,CAPITALE IMMOBILIZZATO,
+,Attività commerciali,desumibile dai prospetti contabili consolidati
+,Altre attività correnti,desumibile dai prospetti contabili consolidati
+,Attività per imposte correnti,desumibile dai prospetti contabili consolidati
+,Passività commerciali,desumibile dai prospetti contabili consolidati
+,Altre passività correnti,desumibile dai prospetti contabili consolidati
+,Passività per imposte correnti,desumibile dai prospetti contabili consolidati
+B,CAPITALE CIRCOLANTE,
+,Fondi per benefici per dipendenti,desumibile dai prospetti contabili consolidati
+,Fondo rinnovo infrastrutture aeroportuali,desumibile dai prospetti contabili consolidati
+,Altri fondi per rischi ed oneri,desumibile dai prospetti contabili consolidati
+C,QUOTA CORRENTE FONDI,corrispondente alla voce Fondi per accantonamenti correnti deiprospetti contabili consolidati
+D = B + C,CAPITALE CIRCOLANTE AL NETTO DELLAQUOTA CORRENTE DEI FONDI,
+,Passività non correnti,+ Fondi per accantonamenti non correnti desumibili dai prospetticontabili Consolidati
+,+ Altre passività non correnti desumibili dai prospetti contabiliconsolidati,
+E,PASSIVITÀ NON CORRENTI,
+F = A + D + E,CAPITALE INVESTITO NETTO,
+,Patrimonio Netto Di Pertinenza Del Gruppo,desumibile dai prospetti contabili consolidati
+,Patrimonio Netto Di Pertinenza Di Terzi,desumibile dai prospetti contabili consolidati
+G,PATRIMONIO NETTO,
+,Passività Finanziarie Non Correnti,desumibile dai prospetti contabili consolidati
+,Altre Attività Finanziarie Non Correnti,desumibile dai prospetti contabili consolidati
+H,INDEBITAMENTO FINANZIARIO NETTO NONCORRENTE,
+,Passività finanziarie correnti,desumibile dai prospetti contabili consolidati
+,Attività finanziarie correnti,"+ Altre attività finanziarie correnti, desumibili dai prospetti contabiliconsolidati"
+,+ Disponibilità liquide e mezzi equivalenti desumibili dai prospetti con-tabili consolidati,
+I,INDEBITAMENTO FINANZIARIO NETTO CORRENTE,
+L = H + I,INDEBITAMENTO FINANZIARIO NETTO,
+G + L,COPERTURA DEL CAPITALE INVESTITO,
