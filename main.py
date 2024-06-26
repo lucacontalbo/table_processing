@@ -3,9 +3,9 @@ from extractors import TabulaExtractor, CamelotExtractor, PdfplumberExtractor, T
 
 switch = {
     "tabula": TabulaExtractor,
-    "camelot": [],
-    "pdfplumber": [],
-    "tabletransformer": []
+    "camelot": CamelotExtractor,
+    "pdfplumber": PdfplumberExtractor,
+    "tabletransformer": TabletransformerExtractor
 }
 
 def init_args():

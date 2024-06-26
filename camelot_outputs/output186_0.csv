@@ -1,0 +1,75 @@
+0,1,2,3,4
+"Valutazione al fair value
+Rischio di tasso 
+esposizione e sensi-
+31.12.2022
+31.12.2021
+tivity analysis
+Passività finanziarie 
+non derivate (cash 
+flow sensitivity)
+(1.869.670)
+(2.277.049)
+Passività finanziarie 
+non derivate 
+(balance sheet 
+sensitivity)
+Strumenti derivati 
+con fair value 
+positivo trattati in 
+54.654
+1.900
+hedge accounting
+(balance sheet 
+sensitivity) 
+Strumenti derivati 
+con fair value 
+negativo trattati in 
+(83.652)
+(119.468)
+hedge accounting
+(balance sheet 
+sensitivity)",Rischio tasso d’interesse8,,Rischio tasso di cambio,
+,"Shock up +100 BPS IR
+31.12.2022
+31.12.2021
+(2.000)
+(3.000)
+0
+0
+25.819
+9.180
+122
+30.933","Shock down -100 
+BPS IR
+31.12.2022
+31.12.2021
+2.000
+3.000
+0
+0
+(28.580)
+(10.303)
+123
+(34.420)","Shock up +10% FX    
+31.12.2022
+31.12.2021
+0
+0
+(24.241)
+(25.587)
+0
+0
+24.241
+25.587","Shock down            
+-10% FX
+31.12.2022
+31.12.2021
+0
+0
+24.241
+25.587
+0
+0
+(24.241)
+(25.587)"
