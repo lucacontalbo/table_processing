@@ -253,7 +253,9 @@ class TabletransformerExtractor:
     def extract(self, pdf_path, out_file=None):
         #parse pdf pages as imgs
         #=== WRITE HERE ===
-
+        print("converting")
+        print(convert_from_path(pdf_path))
+        print("done converting")
         images = [image.convert("RGB") for image in convert_from_path(pdf_path)]
         print(images)
         print(a)
