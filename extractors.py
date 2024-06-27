@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw
 from torchvision import transforms
 from matplotlib.patches import Patch
 from tqdm import tqdm
-from pdf2image import convert_from_path, convert_from_bytes
+from pdf2image import convert_from_path, convert_from_bytes, pdfinfo_from_path
 
 
 class TabulaExtractor:
@@ -90,6 +90,7 @@ class TabletransformerExtractor:
         self.model_detection = self.load_model(AutoModelForObjectDetection, "microsoft/table-transformer-detection").to(self.device)
         self.model_structure = self.load_model(TableTransformerForObjectDetection, "microsoft/table-structure-recognition-v1.1-all", timm=True).to(self.device)
         self.ocr = OCR()
+        self.visualize = False
 
     @functools.cache
     def load_model(self, arch, model_name, timm=False):
@@ -97,12 +98,6 @@ class TabletransformerExtractor:
             return arch.from_pretrained(model_name, revision="no_timm")
         else:
             return arch.from_pretrained(model_name)
-
-    def load_image(self, file_path, display_image=False):
-        image = Image.open(file_path).convert("RGB")
-        if display_image:
-            width, height = image.size
-            display(image.resize((int(0.6*width), (int(0.6*height)))))
 
     def preprocess_image(self, image, resize=800):
         detection_transform = transforms.Compose([
@@ -251,20 +246,21 @@ class TabletransformerExtractor:
 
 
     def extract(self, pdf_path, out_file=None):
-        #parse pdf pages as imgs
-        #=== WRITE HERE ===
-        print("converting")
-        print(convert_from_path(pdf_path))
-        print("done converting")
-        images = [image.convert("RGB") for image in convert_from_path(pdf_path)]
-        print(images)
-        print(a)
 
+        print("Processing pdf pages as images. It may take a while...")
+        info = pdfinfo_from_path(pdf_path, userpw=None, poppler_path=None)
 
-        #==================
+        maxPages = info["Pages"]
+        #images = convert_from_path(pdf_path, 10)
+        images = []
 
-        for image_path in images_path:
-            image = self.load_image(image_path)
+        for page in range(1, maxPages+1, 10):
+            images.extend(convert_from_path(pdf_path, dpi=200, first_page=page, last_page = min(page+10-1,maxPages)))
+
+        print("conversion done.")
+
+        for i, image in enumerate(images):
+            #image = self.load_image(image_path)
             pixel_values = self.preprocess_image(image)
 
             with torch.no_grad():
@@ -283,33 +279,34 @@ class TabletransformerExtractor:
             }
 
             tables_crops = self.objects_to_crops(image, tokens, objects, detection_class_thresholds, padding=500)
-            cropped_table = tables_crops[0]['image'].convert("RGB")
+            for j in range(len(tables_crops)):
+                cropped_table = tables_crops[j]['image'].convert("RGB")
 
-            pixel_values = self.preprocess_image(cropped_table, resize=1000)
-            with torch.no_grad():
-                outputs = self.model_structure(pixel_values)
+                pixel_values = self.preprocess_image(cropped_table, resize=1000)
+                with torch.no_grad():
+                    outputs = self.model_structure(pixel_values)
 
-            structure_id2label = self.model_structure.config.id2label
-            structure_id2label[len(structure_id2label)] = "no object"
+                structure_id2label = self.model_structure.config.id2label
+                structure_id2label[len(structure_id2label)] = "no object"
 
-            cells = self.outputs_to_objects(outputs, cropped_table.size, structure_id2label)
+                cells = self.outputs_to_objects(outputs, cropped_table.size, structure_id2label)
 
-            if self.visualize:
-                cropped_table_visualized = cropped_table.copy()
-                draw = ImageDraw.Draw(cropped_table_visualized)
+                if self.visualize:
+                    cropped_table_visualized = cropped_table.copy()
+                    draw = ImageDraw.Draw(cropped_table_visualized)
 
-                for cell in cells:
-                    draw.rectangle(cell["bbox"], outline="red")
+                    for cell in cells:
+                        draw.rectangle(cell["bbox"], outline="red")
 
-            cell_coordinates = self.ocr.get_cell_coordinates_by_row(cells)
+                cell_coordinates = self.ocr.get_cell_coordinates_by_row(cells)
 
-            data = self.ocr.apply_ocr(cell_coordinates, cropped_table)
+                data = self.ocr.apply_ocr(cell_coordinates, cropped_table)
 
-            with open(f"{out_file}{i}_{j}.csv",'w') as result_file:
-                wr = csv.writer(result_file, dialect='excel')
+                with open(f"{out_file}{i}_{j}.csv",'w') as result_file:
+                    wr = csv.writer(result_file, dialect='excel')
 
-                for _, row_text in data.items():
-                    wr.writerow(row_text)
+                    for _, row_text in data.items():
+                        wr.writerow(row_text)
 
 
 class OCR:
@@ -321,7 +318,7 @@ class OCR:
     def load_model(self, lang):
         return easyocr.Reader(['it'])
 
-    def get_cell_coordinates_by_row(table_data):
+    def get_cell_coordinates_by_row(self, table_data):
         rows = [entry for entry in table_data if entry['label'] == 'table row']
         columns = [entry for entry in table_data if entry['label'] == 'table column']
 
