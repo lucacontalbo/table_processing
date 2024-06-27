@@ -1,0 +1,35 @@
+0,1,2,3,4,5,6,7,8,9,10
+,"Valutazione
+al fair value",,"Rischio tasso
+d’interesse4",,,,,,,
+,,,"Shock up
++100 BPS IR",,"Shock down
+-100 BPS IR",,"Shock up
++10% FX",,"Shock down
+-10% FX",
+,,,,,,,,,,
+"Rischio di tasso
+esposizione
+e sensitivity
+analysis",31.12.2022,3311..1122..22002211,31.12.2022,3311..1122..22002211,31.12.2022,3311..1122..22002211,31.12.2022,3311..1122..22002211,31.12.2022,3311..1122..22002211
+"Passività
+finanziarie non
+derivate (cash
+flow sensitivity)",(1.869.670),(2.277.049),(2.000),(3.000),2.000,3.000,0,0,0,0
+"Passività
+finanziarie non
+derivate (balance
+sheet sensitivity)",,,0,0,0,0,(24.241),(25.587),24.241,25.587
+"Strumenti derivati
+con fair value
+positivo trattati in
+hedge accounting
+(balance sheet
+sensitivity)",54.654,1.900,25.819,9.180,(28.580),(10.303),0,0,0,0
+"Strumenti
+derivati con fair
+value negativo
+trattati in hedge
+accounting
+(balance sheet
+sensitivity)",(83.652),(119.468),122,30.933,123,(34.420),24.241,25.587,(24.241),(25.587)

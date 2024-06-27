@@ -1,5 +1,7 @@
 import tabula
 import camelot
+import pdfplumber
+import pandas as pd
 
 class TabulaExtractor:
     def __init__(self,):
@@ -42,7 +44,16 @@ class PdfplumberExtractor:
         pass
 
     def extract(self, pdf_path, out_file=None):
-        pass
+        pdf = pdfplumber.open(pdf_path)
+        for i in range(len(pdf.pages)):
+            print(f"*** parsing page {i} ***")
+            page = pdf.pages[i]
+            pages = page.extract_tables()
+            for j, p in enumerate(pages):
+                if p is not None:
+                    df = pd.DataFrame(p)
+                    print(df.head())
+                    df.to_csv(f"{out_file}{i}_{j}.csv", index=False)
 
 class TabletransformerExtractor:
     def __init__(self):

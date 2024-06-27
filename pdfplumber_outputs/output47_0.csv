@@ -1,0 +1,36 @@
+0,1,2,3,4
+,,31.12.2022,202131.12.2021,
+,Immobilizzazioni immateriali,2.557.622,2.497.308,60.314
+,Immobilizzazioni materiali,49.327,47.418,1.909
+,Immobilizzazioni finanziarie,54.178,52.949,1.229
+,Attività per imposte anticipate,43.185,91.685,(48.500)
+,Altre attività non correnti,433,445,(12)
+A,CAPITALE IMMOBILIZZATO,2.704.745,2.689.805,14.940
+,Attività commerciali,218.228,188.706,29.522
+,Altre attività correnti,30.826,256.919,(226.093)
+,Attività per imposte correnti,26.518,75.634,(49.116)
+,Passività commerciali,(232.219),(159.860),(72.359)
+,Altre passività correnti,(167.018),(135.079),(31.939)
+,Passività per imposte correnti,(10.683),(7.320),(3.363)
+B,CAPITALE CIRCOLANTE,(134.348),219.000,(353.348)
+,Fondi per benefici per dipendenti,(992),(615),(377)
+,Fondo rinnovo infrastrutture aeroportuali,(72.518),(53.287),(19.231)
+,Altri fondi per rischi ed oneri,(4.704),(3.531),(1.173)
+C,QUOTA CORRENTE FONDI,(78.214),(57.433),(20.781)
+D = B + C,"CAPITALE CIRCOLANTE AL NETTO DELLA QUOTA
+CORRENTE DEI FONDI",(212.562),161.567,(374.129)
+,Passività non correnti,(179.459),(185.022),5.563
+E,PASSIVITÀ NON CORRENTI,(179.459),(185.022),5.563
+F = A + D + E,CAPITALE INVESTITO NETTO,2.312.724,2.666.350,(353.626)
+,Capitale sociale,62.225,62.225,0
+,Riserve e utili (perdite) portati a nuovo,977.950,940.540,37.410
+,Utili (perdita) dell’esercizio,30.741,(44.868),75.609
+G,PATRIMONIO NETTO,1.070.916,957.897,113.019
+,Passività finanziarie non correnti,1.891.771,2.261.598,(369.827)
+,Altre attività finanziarie non correnti,(17.429),(718),(16.711)
+H,INDEBITAMENTO FINANZIARIO NETTO NON CORRENTE,1.874.342,2.260.880,(386.538)
+,Passività finanziarie correnti,420.541,89.866,330.675
+,Attività finanziarie correnti,(1.053.075),(642.293),(410.782)
+I,INDEBITAMENTO FINANZIARIO NETTO CORRENTE,(632.534),(552.427),(80.107)
+L = H + I,INDEBITAMENTO FINANZIARIO NETTO,1.241.808,1.708.453,(466.645)
+G + L,COPERTURA DEL CAPITALE INVESTITO,2.312.724,2.666.350,(353.626)
