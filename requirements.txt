@@ -1,0 +1,13 @@
+tabula-py[jpype]
+camelot-py
+pdfplumber
+torch
+easyocr
+numpy
+pandas
+matplotlib
+transformers
+pillow
+torchvision
+tqdm
+pdf2image
