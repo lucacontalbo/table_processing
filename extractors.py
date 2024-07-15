@@ -17,60 +17,178 @@ from PIL import Image, ImageDraw
 from torchvision import transforms
 from matplotlib.patches import Patch
 from tqdm import tqdm
+from copy import deepcopy
 from pdf2image import convert_from_path, convert_from_bytes, pdfinfo_from_path
 
 
-class TabulaExtractor:
+class GeneralExtractor:
     def __init__(self,):
         pass
 
+    def get_splits_bbox(self, curve, split_delims, axis=1):
+        curr_bbox = {"x0": curve["x0"], "top": curve["top"], "x1": curve["x1"], "bottom": curve["bottom"]}
+        if axis == 1:
+            splits = []
+            for split_val in split_delims:
+                curr_bbox["x1"] = split_val
+                bbox = [curr_bbox["x0"], curr_bbox["top"], curr_bbox["x1"], curr_bbox["bottom"]]
+                splits.append(deepcopy(bbox))
+                curr_bbox["x0"] = curr_bbox["x1"]
+        return splits
+
+    def get_curve(self, curve):
+        bbox = [0,0,0,0]
+        bbox[0] = curve["x0"]
+        bbox[1] = curve["top"]
+        bbox[2] = curve["x1"]
+        bbox[3] = curve["bottom"]
+        return bbox
+
+    def expand_table(self, bbox, max_width, max_height, direction="top"):
+        if direction == "top":
+            bbox[1] -= 50
+            bbox[0] -= 5
+            bbox[2] += 5
+            bbox[3] += 5
+            bbox[0], bbox[1] = max(0, bbox[0]), max(0, bbox[1])
+            bbox[2], bbox[3] = min(bbox[2], max_width), min(bbox[3], max_height)
+        return bbox
+
+    def extract_additional_hcols(self, pdf, table):
+        bbox = list(table.bbox)
+        bbox = self.expand_table(bbox, pdf.width, pdf.height, direction="top")
+        new_pdf = pdf.crop(tuple(bbox))
+        result = []
+        if len(new_pdf.curves) != 0:
+            if len(new_pdf.curves) > 1:
+                print("the number of curves is higher than 1. Defaulting to the first curve...")
+            curve = new_pdf.curves[0]
+            extracted_curve = self.get_curve(curve)
+            ncols = len(table.rows[0].cells)
+            split_size = (curve["x1"] - curve["x0"]) / ncols
+            split_delims = []
+            for i in range(ncols):
+                split_delims.append(curve["x0"] + (i+1)*split_size)
+            delimited_bboxes = self.get_splits_bbox(curve, split_delims)
+            words_in_pdf = set(pdf.extract_text().lower().split())
+            for bbox in delimited_bboxes:
+                cropped_pdf = pdf.crop(tuple(bbox))
+                for word in cropped_pdf.extract_text().split():
+                    if word.lower() not in words_in_pdf:
+                        return []
+                result.append(cropped_pdf.extract_text())
+        return result #test if, when the cell is cropped even with text in between, it gives out wrong words
+
+    def run(self, pdf_path, out_file=None, extract_hcols=True):
+        tables_per_page, tables_per_df, pages_list = self.extract(pdf_path, out_file)
+        if extract_hcols:
+            for i, (tables, tables_df, page) in enumerate(zip(tables_per_page, tables_per_df, pages_list)):
+                for j, (table, table_df) in enumerate(zip(tables, tables_df)):
+                    new_hcols = self.extract_additional_hcols(page, table)
+                    if len(new_hcols) > 0:
+                        table_df.columns = new_hcols
+                    table_df.to_csv(f"{out_file}{i}_{j}.csv", index=False)
+        return tables_per_page, tables_per_df, pages_list
+
+class TabulaExtractor(GeneralExtractor):
+    def __init__(self,):
+        super(TabulaExtractor, self).__init__()
+
     def extract(self, pdf_path, out_file=None):
         num_pages = 450
+        tables_df = []
         for page in range(num_pages):
             print(f"*** parsing page {page} ***")
+            tables = []
             try:
                 dfs = tabula.read_pdf(pdf_path, encoding='utf-8', pages=str(page+1))
             except:
-                pass
+                print("error in loading pdf")
                 #raise ValueError("file path is non existent")
             if len(dfs) > 0:
                 for i, df in enumerate(dfs):
+                    tables.append(df)
                     df.to_csv(f"{out_file}{page}_{i}.csv", index=False)
+            tables_df.append(tables)
+        return tables_df
         
 
-class CamelotExtractor:
+class CamelotExtractor(GeneralExtractor):
     def __init__(self):
-        pass
+        super(CamelotExtractor, self).__init__()
 
     def extract(self, pdf_path, out_file=None):
         num_pages = 450
+        tables_df = []
         for page in range(num_pages):
             print(f"*** parsing page {page} ***")
+            tables = []
             try:
-                tables = camelot.read_pdf(pdf_path, pages=str(page))
+                dfs = camelot.read_pdf(pdf_path, pages=str(page))
             except:
+                print("error in loading pdf")
                 pass
-            if len(tables) > 0:
-                for i, table in enumerate(tables):
-                    df = table.df
+            if len(dfs) > 0:
+                for i, df in enumerate(dfs):
+                    df = df.df
                     df.to_csv(f"{out_file}{page}_{i}.csv", index=False)
+                    tables.append(df)
+            tables_df.append(tables)
+        return tables_df
 
 
-class PdfplumberExtractor:
+class PdfplumberExtractor(GeneralExtractor):
     def __init__(self):
-        pass
+        super(PdfplumberExtractor, self).__init__()
+
+    def read_pdf(self, pdf_path):
+        return pdfplumber.open(pdf_path)
 
     def extract(self, pdf_path, out_file=None):
-        pdf = pdfplumber.open(pdf_path)
+        pdf = self.read_pdf(pdf_path)
+        tables_pdf_tot = []
+        tables_df_tot = []
+        pages_list = []
         for i in range(len(pdf.pages)):
+            if i != 95: continue
             print(f"*** parsing page {i} ***")
             page = pdf.pages[i]
-            pages = page.extract_tables()
-            for j, p in enumerate(pages):
-                if p is not None:                              
+            pages_list.append(page)
+            pages, pages_tables = page.extract_tables(), page.find_tables()
+            tables_pdf = []
+            tables_df = []
+            for j, (p, pt) in enumerate(zip(pages, pages_tables)):
+                if p is not None:
                     df = pd.DataFrame(p)
+                    tables_pdf.append(pt)
+                    tables_df.append(df)
+                    
                     df.to_csv(f"{out_file}{i}_{j}.csv", index=False)
+            tables_pdf_tot.append(tables_pdf)
+            tables_df_tot.append(tables_df)
+        return tables_pdf_tot, tables_df_tot, pages_list
+    
+    def get_image_bbox(self, pdf_path):
+        pdf = pdfplumber.open(pdf_path)
+        images = []
 
+        for i in range(len(pdf.pages)):
+            tables = pdf.pages[i].find_tables()
+            for j,p in enumerate(tables):
+                if p is not None:
+                    bbox = list(p.bbox)
+                    bbox[1] -= 50
+                    bbox[0] -= 5
+                    bbox[2] += 5
+                    bbox[3] += 5
+                    bbox[0], bbox[1] = max(0, bbox[0]), max(0, bbox[1])
+                    bbox[2], bbox[3] = min(bbox[2], pdf.pages[i].width), min(bbox[3], pdf.pages[i].height)
+
+                    images.append(pdf.pages[i].crop(tuple(bbox)).to_image().original)
+                else:
+                    images.append(-1)
+        
+        return images
 
 class MaxResize(object):
     def __init__(self, max_size=800):
@@ -308,10 +426,9 @@ class TabletransformerExtractor:
                     for _, row_text in data.items():
                         wr.writerow(row_text)
 
-
 class OCR:
 
-    def __init__(self, lang="it"):
+    def __init__(self, lang="eng"):
         self.reader = self.load_model(lang)
 
     @functools.cache
@@ -368,3 +485,81 @@ class OCR:
             data[row] = row_data
 
         return data
+    
+
+class TabletransformerExtractorWithPdfPlumber(TabletransformerExtractor):
+    def __init__(self):
+        super().__init__()
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.visualize = True
+
+        self.pdfplumber = PdfplumberExtractor()
+
+    def extract(self, pdf_path, out_file=None):
+
+        print("Processing pdf pages as images. It may take a while...")
+        info = pdfinfo_from_path(pdf_path, userpw=None, poppler_path=None)
+
+        maxPages = info["Pages"]
+        #images = convert_from_path(pdf_path, 10)
+        images = self.pdfplumber.get_image_bbox(pdf_path)
+        """for im in images:
+            im.show()"""
+
+        #for page in tqdm(range(1, maxPages+1, 10)):
+        #    images.extend(convert_from_path(pdf_path, dpi=200, first_page=page, last_page = min(page+10-1,maxPages)))
+
+        #print(images)
+
+        print("conversion done.")
+
+        for i, image in enumerate(images):
+            if image == -1:
+                continue
+            #image = self.load_image(image_path)
+            pixel_values = self.preprocess_image(image)
+
+            with torch.no_grad():
+                outputs = self.model_detection(pixel_values)
+            
+            id2label = self.model_detection.config.id2label
+            id2label[len(self.model_detection.config.id2label)] = "no object"
+
+            objects = self.outputs_to_objects(outputs, image.size, id2label)
+
+            tokens = []
+            detection_class_thresholds = {
+                "table": 0.5,
+                "table rotated": 0.5,
+                "no object": 10
+            }
+
+            tables_crops = self.objects_to_crops(image, tokens, objects, detection_class_thresholds, padding=500)
+            for j in range(len(tables_crops)):
+                cropped_table = tables_crops[j]['image'].convert("RGB")
+
+                pixel_values = self.preprocess_image(cropped_table, resize=1000)
+                with torch.no_grad():
+                    outputs = self.model_structure(pixel_values)
+
+                structure_id2label = self.model_structure.config.id2label
+                structure_id2label[len(structure_id2label)] = "no object"
+
+                cells = self.outputs_to_objects(outputs, cropped_table.size, structure_id2label)
+
+                if self.visualize:
+                    cropped_table_visualized = cropped_table.copy()
+                    draw = ImageDraw.Draw(cropped_table_visualized)
+
+                    for cell in cells:
+                        draw.rectangle(cell["bbox"], outline="red")
+
+                cell_coordinates = self.ocr.get_cell_coordinates_by_row(cells)
+
+                data = self.ocr.apply_ocr(cell_coordinates, cropped_table)
+
+                with open(f"{out_file}{i}_{j}.csv",'w') as result_file:
+                    wr = csv.writer(result_file, dialect='excel')
+
+                    for _, row_text in data.items():
+                        wr.writerow(row_text)
